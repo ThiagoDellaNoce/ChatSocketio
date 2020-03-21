@@ -1,45 +1,138 @@
-html, body {
-    height: 100%;
-  }
-  
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  #chat {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  
-  input {
-    width: 600px;
-    border: 1px solid #ddd;
-    height: 50px;
-    padding: 0 20px;
-    font-size: 14px;
-  }
-  
-  button {
-    width: 600px;
-    height: 50px;
-    font-size: 14px;
-    background: #069;
-    text-align: center;
-    line-height: 50px;
-    font-weight: bold;
-    color: #FFF;
-    margin-top: 10px;
-  }
-  
-  .messages {
-    width: 600px;
-    height: 400px;
-    margin: 20px 0;
-    border: 1px solid #ddd;
-    padding: 20px;
-  }
+.mytext {
+  border: 0;
+  padding: 10px;
+  background: #212227;
+  color: #d4d4d4;
+}
+
+.text {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+}
+
+.text > p:first-of-type {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: auto;
+  line-height: 13px;
+  font-size: 12px;
+}
+
+.text > p:last-of-type {
+  width: 100%;
+  text-align: right;
+  color: #212227;
+  margin-bottom: -7px;
+  margin-top: auto;
+}
+
+.text-l {
+  float: left;
+  padding-right: 10px;
+}
+
+.text-r {
+  float: right;
+  padding-left: 10px;
+}
+
+.macro {
+  margin-top: 5px;
+  width: 85%;
+  border-radius: 5px;
+  padding: 5px 5px 15px 5px;
+  display: inline-grid;
+  height: auto;
+}
+
+.msj-edt {
+  float: right;
+  background: #212227;
+}
+
+.msj-rta {
+  float: right;
+  background: #b19ed0;
+}
+
+.msj {
+  float: left;
+  background: #97e1f1;
+}
+
+.frame {
+  background: #282a36;
+  height: 100vh;
+  overflow: hidden;
+  padding: 0;
+}
+
+.frame > div:last-of-type {
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  display: flex;
+}
+
+ul {
+  width: 100%;
+  height: 85%;
+  overflow-y: auto;
+  list-style-type: none;
+  padding:  18px 28px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estiliza o balão de conversa */
+.msj:before {
+  width: 0;
+  height: 0;
+  content: "";
+}
+
+.msj-rta:after {
+  width: 0;
+  height: 0;
+  content: "";
+  border-style: solid;
+  border-color: transparent;
+}
+
+/* estiliza o input */
+input:focus {
+  outline: none;
+}
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #d4d4d4;
+}
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #d4d4d4;
+}
+
+:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #d4d4d4;
+}
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: #d4d4d4;
+}
+
+.btn {
+  border-radius: 50px;
+  background-color: #f286a9;
+  float: right;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  right: 40px;
+  bottom: 10px;
+}

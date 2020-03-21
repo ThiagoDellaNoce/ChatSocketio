@@ -1,54 +1,111 @@
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>QG Chat Club</title>
-    
-        <link rel="icon" type="image/x-icon" href="favicon.png">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <form id="chat">
-            <input type="text" name="username" placeholder="Digite seu usuário">
-            <div class="messages"></div>
-            <input type="text" name="message" placeholder="Digite sua mensagem">
-            <button type="submit">Enviar</button>
-        </form>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>QG Chat Club</title>
 
-    <script type="text/javascript">
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class=" frame">
+        <ul class="messages"></ul>
+        <div>
+            <div class="msj-edt macro" style="margin:auto">                        
+                <div class="text text-r" >
+                        <form id="chat">
+                            <input class="mytext" type="text" name="username" placeholder="Qual seu nome?"/>
+                            <input class="mytext" type="text" name="message" placeholder="Digite uma mensagem"/>
+                            <button class="btn" type="submit" style="width: 40px; height: 40px;"><span style="top: -2px; position: relative; font-size: larger; color: #fff;">✓</span></button>
+                        </form>
+                    </div> 
+                </div>
+            </div>
+
+    </div> 
+
+
+    <!-- 1<form id="chat">
+        1<div class="messages"></div>
+        <input type="text" name="username" placeholder="Digite seu usuário">
+        <input type="text" name="message" placeholder="Digite sua mensagem">
+        <button type="submit">Enviar</button>
+    </form> -->
+</body>
+
+<script type="text/javascript">
     // abre o socket
     var socket = io('https://qgchatclub.herokuapp.com');
-    
+    var author = "teste";
+
     // renderiza mensagem
     function renderMessage(message) {
-        $('.messages').append('<div class="message"><strong>' + message.author + '</strong>: ' + message.message + '</div>');
-    }
+        // $('.messages').append('<div class="message"><strong class="name-text">' + message.author + '</strong><span class="detail-text">:</span> <span class="message-text">' + message.message + '</span></div>');
+        if (author != message.author) { //who?
+            $('.messages').append(`
+                <li style="width:100%">
+                    <div class="msj macro">
+                        <div class="text text-l">
+                            <p style="font-size: 20px;"> ${message.message}</p>
+                            <p><small style="float: left; color: #599b9e; font-size: 16px"> ${message.author} </small></p>
+                        </div>
+                    </div>
+                </li>`);  
+        } else{
+            $('.messages').append(`
+                <li style="width:100%;">
+                    <div class="msj-rta macro">
+                        <div class="text text-r">
+                            <p style="font-size: 20px;"> ${message.message}</p>
+                            <p><small></small></p>
+                        </div>
+                    <div class="avatar" style="padding:0px 0px 0px 10px !important"></div>                            
+                </li>`);
+        };
+    };
+
+    // salva author
+    function saveAuthor(mAuthor) {
+        console.log(mAuthor)
+        author = mAuthor;
+
+        $('input[name=username]').hide()
+
+    };
 
     // pega todas mensagens
-    socket.on('previousMessages', function(messages) {
+    socket.on('previousMessages', function (messages) {
         for (message of messages) {
             renderMessage(message);
-        }
+        };
     });
 
     // renderiza mensagem recebida
-    socket.on('receivedMessage', function(message) {
-        renderMessage(message);
+    socket.on('receivedMessage', function (data) {
+        renderMessage(data);
     });
 
     //envia mensagem
-    $("#chat").submit(function($event) {
+    $("#chat").submit(function ($event) {
         event.preventDefault();
 
         var author = $('input[name=username]').val();
         var message = $('input[name=message]').val();
 
-        if(author.length && message.length) {
+        saveAuthor(author);
+
+        if (author.length && message.length) {
             var messageObject = {
                 author: author,
                 message: message
@@ -64,5 +121,6 @@
 
     });
 
-    </script>
+</script>
+
 </html>
