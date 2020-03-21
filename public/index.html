@@ -19,7 +19,7 @@
 </head>
 
 <body>
-    <div class=" frame">
+    <div class="frame col-sm-12 col-md-6">
         <ul class="messages"></ul>
         <div>
             <div class="msj-edt macro" style="margin:auto">                        
@@ -33,15 +33,13 @@
                 </div>
             </div>
 
-    </div> 
+            <!-- <iframe id="youtube" class="col-sm-12 col-md-6" style="float: right;" frameborder="0" allowfullscreen="allowfullscreen"
+                src="http://www.youtube.com/embed/CsiMd-xU7pI?autoplay=1" >
+            </iframe> -->
+            <div id="ytplayer"></div>
+            
+        </div> 
 
-
-    <!-- 1<form id="chat">
-        1<div class="messages"></div>
-        <input type="text" name="username" placeholder="Digite seu usuário">
-        <input type="text" name="message" placeholder="Digite sua mensagem">
-        <button type="submit">Enviar</button>
-    </form> -->
 </body>
 
 <script type="text/javascript">
@@ -122,5 +120,33 @@
     });
 
 </script>
+
+<script>
+    // Load the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/player_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  
+    // Replace the 'ytplayer' element with an <iframe> and
+    // YouTube player after the API code downloads.
+    var player;
+    function onYouTubePlayerAPIReady() {
+      player = new YT.Player('ytplayer', {
+        height: '360',
+        width: '640',
+        videoId: 'M7lc1UVf-VE',
+        autoplay: 1,
+        events: {
+            'onReady': onPlayerReady
+        }
+      });
+    }
+
+    function onPlayerReady(event) {
+        event.target.setVolume(100);
+        event.target.playVideo();
+    }
+  </script>
 
 </html>

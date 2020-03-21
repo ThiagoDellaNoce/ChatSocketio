@@ -76,8 +76,9 @@
 }
 
 ul {
+  top: 155px;
   width: 100%;
-  height: 85%;
+  height: 61%;
   overflow-y: auto;
   list-style-type: none;
   padding:  18px 28px;
