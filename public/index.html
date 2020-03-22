@@ -38,8 +38,6 @@
 
         
     </div>
-    
-    <div id="youtube"></div>
 </body>
 
 <script type="text/javascript">
@@ -72,13 +70,6 @@
         };
     };
 
-    function playMusic(id) {
-        $("#youtube").append(`<iframe id="youtube" width="560" height="315" src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen frameborder="0"></iframe>`);
-    };
-    function changeMusic() {
-        location.reload();
-    };
-
     // salva author
     function saveAuthor(mAuthor) {
         author = mAuthor;
@@ -92,10 +83,6 @@
             renderMessage(message);
         };
     });
-    // pega musica tocando
-    socket.on('selecTrack', function (track) {
-        playMusic(track);
-    });
 
     // renderiza mensagem recebida
     socket.on('receivedMessage', function (data) {
@@ -105,12 +92,6 @@
                 playMusic(trackId);
                 console.log(data.message.split("/sr=")[1]);
             };
-    });
-
-    // troca para nova musica
-    socket.on('receivedTrack', function (data) {
-        console.log(data);
-        playMusic(data);
     });
 
     //envia mensagem
@@ -133,14 +114,6 @@
             renderMessage(messageObject);
             
             socket.emit('sendMessage', messageObject);
-            
-            // caso for /sr=
-            if(message.split("/sr=")[1]) {
-                var trackId = message.split("/sr=")[1];
-                playMusic(trackId);
-                console.log(message.split("/sr=")[1]);
-                socket.emit('setTrack', trackId);
-            };
         };
 
         $('input[name=message]').val("");

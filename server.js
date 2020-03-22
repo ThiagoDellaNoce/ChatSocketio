@@ -17,22 +17,12 @@ app.use("/", (req, res) => {
 // banco de mensagens
 let authors = [];
 let messages = [];
-let track = 'l7vuDjL1lik';
 
 // socket
 io.on("connection", socket => {
   console.log(`Socket conectado: ${socket.id}`);
 
   socket.emit("previousMessages", messages);
-  socket.emit("selecTrack", track);
-
-  socket.on("setTrack", data => {
-    console.log(data)
-    track = data;
-
-    //sinc todo mundo
-    socket.broadcast.emit("receivedTrack", track);
-  });
 
   socket.on("sendMessage", data => {
     authors.push(data.author);
