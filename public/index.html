@@ -19,24 +19,27 @@
 </head>
 
 <body>
-    <div class="frame col-sm-12 col-md-6">
+    <div class="frame col-sm-12 col-md-12">
         <ul class="messages"></ul>
         <div>
-            <div class="msj-edt macro" style="margin:auto">                        
-                <div class="text text-r" >
-                        <form id="chat">
-                            <input class="mytext" type="text" name="username" autocomplete="off" placeholder="Qual seu nome?"/>
-                            <input class="mytext" type="text" name="message" autocomplete="off" placeholder="Digite uma mensagem"/>
-                            <button class="btn" type="submit" style="width: 40px; height: 40px;"><span style="top: -2px; position: relative; font-size: larger; color: #fff;">✓</span></button>
-                        </form>
-                    </div> 
+            <div class="msj-edt macro" style="margin:auto">
+                <div class="text text-r">
+                    <form id="chat">
+                        <input class="mytext" type="text" name="username" autocomplete="off"
+                            placeholder="Qual seu nome?" />
+                        <input class="mytext" type="text" name="message" autocomplete="off"
+                            placeholder="Digite uma mensagem" />
+                        <button class="btn" type="submit" style="width: 40px; height: 40px;"><span
+                                style="top: -2px; position: relative; font-size: larger; color: #fff;">✓</span></button>
+                    </form>
                 </div>
             </div>
+        </div>
 
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/EgHwKstJuFo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            
-        </div> 
-
+        
+    </div>
+    
+    <div id="youtube"></div>
 </body>
 
 <script type="text/javascript">
@@ -56,8 +59,8 @@
                             <p><small style="float: left; color: #599b9e; font-size: 16px"> ${message.author} </small></p>
                         </div>
                     </div>
-                </li>`);  
-        } else{
+                </li>`);
+        } else {
             $('.messages').append(`
                 <li style="width:100%;">
                     <div class="msj-rta macro">
@@ -70,13 +73,15 @@
         };
     };
 
+    function changeMusic(id) {
+        $("#youtube").html(`<iframe id="youtube" width="560" height="315" src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen frameborder="0"></iframe>`);
+    };
+
     // salva author
     function saveAuthor(mAuthor) {
-        console.log(mAuthor)
         author = mAuthor;
 
         $('input[name=username]').hide()
-
     };
 
     // pega todas mensagens
@@ -84,6 +89,16 @@
         for (message of messages) {
             renderMessage(message);
         };
+    });
+    // pega musica tocando
+    socket.on('selecTrack', function (track) {
+        alert(track);
+        changeMusic(track);
+    });
+    // pega musica tocando
+    socket.on('seleTrack', function (track) {
+        alert(track);
+        changeMusic(track);
     });
 
     // renderiza mensagem recebida
@@ -98,18 +113,24 @@
         var author = $('input[name=username]').val();
         var message = $('input[name=message]').val();
 
-        saveAuthor(author);
-
         if (author.length && message.length) {
+            saveAuthor(author);
+
+            
+
             var messageObject = {
                 author: author,
                 message: message
             };
 
+            changeMusic(trackId);
             // renderiza mensagem enviada
             renderMessage(messageObject);
 
             socket.emit('sendMessage', messageObject);
+            var trackId = message.split("/sr=")[1];
+            console.log(message.split("/sr=")[1]);
+            socket.emit('setTrack', trackId);
         };
 
         $('input[name=message]').val("");
