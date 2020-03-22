@@ -31,7 +31,7 @@ io.on("connection", socket => {
     track = data;
 
     //sinc todo mundo
-    socket.broadcast.emit("receivedTrack", data);
+    socket.broadcast.emit("receivedTrack", track);
   });
 
   socket.on("sendMessage", data => {
