@@ -87,11 +87,6 @@
     // renderiza mensagem recebida
     socket.on('receivedMessage', function (data) {
         renderMessage(data);
-        if(data.message.split("/sr=")[1]) {
-                var trackId = data.message.split("/sr=")[1];
-                playMusic(trackId);
-                console.log(data.message.split("/sr=")[1]);
-            };
     });
 
     //envia mensagem
